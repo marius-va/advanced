@@ -5,7 +5,7 @@ type ServiceCardProps = {
   title: string;
   description?: string;
   image?: {
-    asset?: { _ref: string };
+    asset?: { _ref: string } | { _id: string; [key: string]: any };
     alt?: string;
   };
   placeholderUrl?: string;
@@ -18,8 +18,11 @@ export function ServiceCard({
   placeholderUrl,
   index,
 }: ServiceCardProps) {
-  // Check if we have a valid Sanity image ref
-  const hasSanityImage = image?.asset?._ref && image.asset._ref.length > 0;
+  // Check if we have a valid Sanity image (either _ref or dereferenced asset with _id)
+  const hasSanityImage = image?.asset && (
+    (image.asset._ref && image.asset._ref.length > 0) ||
+    (image.asset._id && image.asset._id.length > 0)
+  );
 
   const imageUrl = hasSanityImage
     ? urlFor(image).width(800).height(600).url()

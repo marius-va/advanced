@@ -16,7 +16,7 @@ type SanityService = {
   slug: { current: string };
   description: string;
   image: {
-    asset: { _ref: string };
+    asset: { _ref: string } | { _id: string; [key: string]: any };
     alt?: string;
   };
   category?: string;
