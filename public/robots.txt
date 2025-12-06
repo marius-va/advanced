@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Block Sanity Studio from indexing
+Disallow: /studio
+Disallow: /studio/
+
+# Block API routes from indexing
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://advancedcraftjoiners.co.uk/sitemap.xml

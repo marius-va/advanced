@@ -69,6 +69,28 @@ lib/
   - Client configuration in `sanity/lib/client.ts` with separate `client` (CDN) and `previewClient` (draft mode)
   - Helper `sanityFetch()` function supports ISR with tags or time-based revalidation
 
+### Resend Email Integration
+- **Email service**: Resend SDK for transactional emails
+- **Client configuration**: `lib/resend.ts` - single instance export
+- **API endpoint**: `/api/send-email` - example route for sending emails
+- **Environment variables required**:
+  - `RESEND_API_KEY` - API key from Resend dashboard (https://resend.com/api-keys)
+- **Usage pattern**:
+  ```typescript
+  import { resend } from '@/lib/resend'
+
+  const { data, error } = await resend.emails.send({
+    from: 'your-verified-domain@example.com',
+    to: 'recipient@example.com',
+    subject: 'Subject',
+    text: 'Plain text content',
+  })
+  ```
+- **Important notes**:
+  - Replace `onboarding@resend.dev` with your verified domain in production
+  - Resend requires domain verification for custom sender addresses
+  - Email sending is async and returns `{ data, error }` tuple pattern
+
 ### Cache Revalidation System
 - **Webhook endpoint**: `/api/revalidate` - validates Sanity webhook signature and revalidates by document type tag
 - **Draft mode endpoints**:

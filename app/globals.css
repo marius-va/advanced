@@ -1,31 +1,52 @@
 @import "tailwindcss";
 
-/* shadcn/ui design tokens - Light mode */
+/* Advanced Craft Joiners - Light base with gold accents */
 :root {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 9%;
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 9%;
+  /* Gold palette for luxury feel */
+  --gold: 43 74% 52%;           /* #D4AF37 - Primary gold */
+  --gold-light: 43 74% 62%;     /* Lighter for hover states */
+  --gold-dark: 43 74% 42%;      /* Darker for active states */
+  --gold-foreground: 0 0% 0%;   /* Black text on gold */
+
+  /* Light theme base (matching original design) */
+  --background: 0 0% 100%;      /* White */
+  --foreground: 0 0% 0%;        /* Black */
+  --card: 0 0% 100%;            /* White */
+  --card-foreground: 0 0% 0%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 9%;
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 9%;
+  --popover-foreground: 0 0% 0%;
+
+  /* Primary is black (for buttons) */
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary - light gray */
+  --secondary: 0 0% 96%;        /* gray-50 */
+  --secondary-foreground: 0 0% 0%;
+
+  /* Muted */
   --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 45%;
-  --accent: 0 0% 96%;
-  --accent-foreground: 0 0% 9%;
+  --muted-foreground: 0 0% 40%;
+
+  /* Accent - gold */
+  --accent: 43 74% 52%;
+  --accent-foreground: 0 0% 0%;
+
+  /* Destructive */
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
+
+  /* Borders and inputs */
   --border: 0 0% 90%;
   --input: 0 0% 90%;
-  --ring: 0 0% 9%;
+  --ring: 43 74% 52%;           /* Gold ring focus */
+
   --radius: 0.5rem;
 }
 
 /* Tailwind v4 theme mapping */
 @theme inline {
+  /* Standard shadcn colors */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -45,40 +66,47 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+
+  /* Gold color utilities */
+  --color-gold: hsl(var(--gold));
+  --color-gold-light: hsl(var(--gold-light));
+  --color-gold-dark: hsl(var(--gold-dark));
+  --color-gold-foreground: hsl(var(--gold-foreground));
+
+  /* Radius */
   --radius-lg: calc(var(--radius) + 2px);
   --radius-md: var(--radius);
   --radius-sm: calc(var(--radius) - 2px);
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair);
 }
 
-/* Dark mode via media query (user preference: no manual toggle) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 93%;
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 93%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 93%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 0 0% 83%;
-  }
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Account for fixed header when scrolling to sections */
+section {
+  scroll-margin-top: 80px;
 }
 
 body {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Utility classes for serif headings */
+.font-serif {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+/* Selection styling */
+::selection {
+  background-color: hsl(var(--gold));
+  color: white;
 }
