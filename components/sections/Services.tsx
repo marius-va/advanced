@@ -19,7 +19,11 @@ type SanityService = {
     asset: { _ref: string } | { _id: string; [key: string]: any };
     alt?: string;
   };
-  category?: string;
+  category?: {
+    _id: string;
+    title: string;
+    slug: { current: string };
+  };
   featured?: boolean;
 };
 

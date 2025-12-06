@@ -36,7 +36,6 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
       fields: [
         defineField({
           name: 'alt',
@@ -50,22 +49,9 @@ export default defineType({
     defineField({
       name: 'category',
       title: 'Category',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'New Builds', value: 'new-builds' },
-          { title: 'Extensions & Conversions', value: 'extensions' },
-          { title: 'Kitchens & Bathrooms', value: 'kitchens-bathrooms' },
-          { title: 'Joinery', value: 'joinery' },
-          { title: 'Roofing & Exteriors', value: 'roofing' },
-          { title: 'Interiors', value: 'interiors' },
-          { title: 'Outdoor', value: 'outdoor' },
-          { title: 'Heating & Electrical', value: 'heating-electrical' },
-          { title: 'Planning & Design', value: 'planning' },
-          { title: 'Maintenance', value: 'maintenance' },
-        ],
-        layout: 'dropdown',
-      },
+      type: 'reference',
+      to: [{ type: 'category' }],
+      description: 'Select a category for this service',
     }),
     defineField({
       name: 'order',
@@ -97,14 +83,14 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      category: 'category',
+      categoryTitle: 'category.title',
       order: 'order',
       media: 'image',
     },
-    prepare({ title, category, order, media }) {
+    prepare({ title, categoryTitle, order, media }) {
       return {
         title: `${order ? `${order}. ` : ''}${title}`,
-        subtitle: category,
+        subtitle: categoryTitle || 'No category',
         media,
       }
     },

@@ -40,7 +40,11 @@ export const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
     ...,
     asset->
   },
-  category,
+  category->{
+    _id,
+    title,
+    slug
+  },
   featured
 }`
 
@@ -60,7 +64,11 @@ export const FEATURED_SERVICES_QUERY = `*[_type == "service" && featured == true
     ...,
     asset->
   },
-  category
+  category->{
+    _id,
+    title,
+    slug
+  }
 }`
 
 // Get single service by slug
@@ -73,6 +81,10 @@ export const SERVICE_BY_SLUG_QUERY = `*[_type == "service" && slug.current == $s
     ...,
     asset->
   },
-  category,
+  category->{
+    _id,
+    title,
+    slug
+  },
   featured
 }`

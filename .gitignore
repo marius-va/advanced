@@ -44,3 +44,7 @@ next-env.d.ts
 # sanity
 sanity.types.ts
 schema.json
+
+# test/temp directories
+.playwright-mcp/
+advanced-craft-joiners/
