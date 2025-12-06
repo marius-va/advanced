@@ -20,8 +20,8 @@ export function ServiceCard({
 }: ServiceCardProps) {
   // Check if we have a valid Sanity image (either _ref or dereferenced asset with _id)
   const hasSanityImage = image?.asset && (
-    (image.asset._ref && image.asset._ref.length > 0) ||
-    (image.asset._id && image.asset._id.length > 0)
+    ('_ref' in image.asset && image.asset._ref && image.asset._ref.length > 0) ||
+    ('_id' in image.asset && image.asset._id && image.asset._id.length > 0)
   );
 
   const imageUrl = hasSanityImage
