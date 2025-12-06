@@ -4,46 +4,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Next.js 16 project using the App Router with React 19, TypeScript, and Tailwind CSS v4. The project uses the latest Tailwind PostCSS plugin (`@tailwindcss/postcss`) for styling.
+Next.js 16 App Router project with React 19, TypeScript, Tailwind CSS v4, and **Sanity CMS** integration with embedded Studio and webhook-based revalidation.
 
 ## Commands
 
-### Development
 ```bash
-npm run dev        # Start development server on http://localhost:3000
+npm run dev        # Start Next.js dev server (http://localhost:3000)
 npm run build      # Build production bundle
 npm run start      # Start production server
 npm run lint       # Run ESLint
+npm run typegen    # Generate TypeScript types from Sanity schemas
 ```
 
 ## Architecture
 
-### App Router Structure
-- Uses Next.js App Router (`app/` directory)
-- Layout defined in `app/layout.tsx` with font configuration (Geist Sans and Geist Mono)
-- Global styles in `app/globals.css`
-- Pages are TSX files in `app/` directory
+### Sanity CMS Integration
+- **Embedded Studio**: Sanity Studio accessible at `/studio` route (configured in `sanity.config.ts`)
+- **API Version**: `2025-02-19` (set in `.env.local` as `NEXT_PUBLIC_SANITY_API_VERSION`)
+  - This version must match the webhook API version configured in Sanity dashboard
+  - Changes to `NEXT_PUBLIC_*` env vars require Vercel redeploy to take effect
+- **Content Structure**:
+  - Schemas defined in `sanity/schemas/`
+  - GROQ queries in `sanity/lib/queries.ts`
+  - Client configuration in `sanity/lib/client.ts` with separate `client` (CDN) and `previewClient` (draft mode)
+  - Helper `sanityFetch()` function supports ISR with tags or time-based revalidation
 
-### Styling System
-- Tailwind CSS v4 with PostCSS integration
-- CSS variables defined in `globals.css` with theme customization via `@theme inline`
-- Custom CSS properties: `--background`, `--foreground`, `--font-sans`, `--font-mono`
-- Dark mode via `prefers-color-scheme` media query
+### Cache Revalidation System
+- **Webhook endpoint**: `/api/revalidate` - validates Sanity webhook signature and revalidates by document type tag
+- **Draft mode endpoints**: `/api/draft` and `/api/disable-draft` for content preview
+- **Tag-based revalidation**: Uses `revalidateTag(body._type)` to invalidate cache for specific content types
+- **Environment variables required**:
+  - `SANITY_REVALIDATE_SECRET` - webhook signature validation
+  - `SANITY_PREVIEW_SECRET` - draft mode authentication
+  - `SANITY_API_READ_TOKEN` - preview client authentication
 
-### TypeScript Configuration
+### Next.js Configuration
+- App Router with React Server Components by default
 - Path alias: `@/*` maps to root directory
-- Strict mode enabled
-- JSX set to `react-jsx` (React 19's automatic runtime)
-- Module resolution: `bundler`
+- Tailwind CSS v4 via `@tailwindcss/postcss` plugin
+- ESLint flat config format (`eslint.config.mjs`)
 
-### ESLint Configuration
-- Uses new flat config format (`eslint.config.mjs`)
-- Integrates Next.js recommended configs: `eslint-config-next/core-web-vitals` and `eslint-config-next/typescript`
-- Ignores: `.next/`, `out/`, `build/`, `next-env.d.ts`
-
-## Key Conventions
-
-- Font loading uses `next/font/google` with variable CSS injection
-- Static assets in `public/` directory
-- Type-safe with TypeScript strict mode
-- React Server Components by default (App Router)
+### Deployment (Vercel)
+- **Production URL**: https://advanced-seven.vercel.app/
+- Requires environment variables for all `NEXT_PUBLIC_*`, `SANITY_*` secrets
+- Sanity webhook URL: `https://advanced-seven.vercel.app/api/revalidate`
+- Webhook configured with API version `v2025-02-19` and signature validation enabled
