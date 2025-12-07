@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { COMPANY, NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
+import type { SiteSettings } from "@/types/sanity";
 
-export function Footer() {
+interface FooterProps {
+  siteSettings: SiteSettings;
+}
+
+export function Footer({ siteSettings }: FooterProps) {
   const year = new Date().getFullYear();
 
   const scrollToSection = (href: string) => {
@@ -22,13 +27,28 @@ export function Footer() {
           <div className="mb-6 md:mb-0 text-center md:text-left">
             <Link href="/" className="inline-block">
               <div className="font-serif text-2xl font-bold tracking-tight mb-2">
-                Advanced Craft <span className="text-gold">Joiners</span>
+                {siteSettings.companyName ? (
+                  <>
+                    {siteSettings.companyName.split(" ").slice(0, -1).join(" ")}{" "}
+                    <span className="text-gold">
+                      {siteSettings.companyName.split(" ").slice(-1)}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Advanced Craft <span className="text-gold">Joiners</span>
+                  </>
+                )}
               </div>
             </Link>
             <p className="text-gray-400 text-sm">
-              &copy; {year} {COMPANY.name}. All rights reserved.
-              <br />
-              Proudly serving all of Scotland.
+              &copy; {year} {siteSettings.companyName || "Advanced Craft Joiners"}. All rights reserved.
+              {siteSettings.location && (
+                <>
+                  <br />
+                  Proudly serving {siteSettings.location}.
+                </>
+              )}
             </p>
           </div>
 
@@ -54,13 +74,11 @@ export function Footer() {
 
         <Separator className="my-8 bg-gray-800" />
 
-        <div className="text-center text-xs text-gray-500">
-          <p>
-            Premium joinery and construction services across Scotland.
-            <br />
-            Bespoke new builds, extensions, kitchens, and complete renovations.
-          </p>
-        </div>
+        {siteSettings.footerDescription && (
+          <div className="text-center text-xs text-gray-500">
+            <p>{siteSettings.footerDescription}</p>
+          </div>
+        )}
       </div>
     </footer>
   );

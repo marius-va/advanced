@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { COMPANY } from "@/lib/constants";
+import type { SiteSettings, Homepage } from "@/types/sanity";
 
 type ServiceOption = {
   _id: string;
@@ -23,9 +23,11 @@ type ServiceOption = {
 
 type ContactProps = {
   services: ServiceOption[];
+  siteSettings: SiteSettings;
+  homepage: Homepage;
 };
 
-export function Contact({ services }: ContactProps) {
+export function Contact({ services, siteSettings, homepage }: ContactProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -44,7 +46,7 @@ export function Contact({ services }: ContactProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: COMPANY.email,
+          to: siteSettings.email,
           subject: `New Inquiry: ${formData.service || "General Enquiry"}`,
           text: `Name: ${formData.name}
 Phone: ${formData.phone}
@@ -95,20 +97,22 @@ ${formData.message}`,
         <div className="flex flex-col lg:flex-row gap-16">
           {/* Contact Info */}
           <div className="w-full lg:w-5/12">
-            <span className="text-gold font-bold uppercase tracking-widest text-sm mb-2 block">
-              Get In Touch
-            </span>
+            {homepage.contactLabel && (
+              <span className="text-gold font-bold uppercase tracking-widest text-sm mb-2 block">
+                {homepage.contactLabel}
+              </span>
+            )}
             <h2
               id="contact-heading"
               className="font-serif text-4xl md:text-5xl font-bold mb-8"
             >
-              Let&apos;s Discuss Your Project
+              {homepage.contactHeadline || "Let's Discuss Your Project"}
             </h2>
-            <p className="text-gray-400 mb-12 text-lg leading-relaxed">
-              Whether you are planning a bespoke new build or a complex
-              renovation, we are ready to bring your vision to life. Contact us
-              today for a consultation.
-            </p>
+            {homepage.contactDescription && (
+              <p className="text-gray-400 mb-12 text-lg leading-relaxed">
+                {homepage.contactDescription}
+              </p>
+            )}
 
             <div className="space-y-8">
               {/* Phone */}
@@ -121,17 +125,19 @@ ${formData.message}`,
                     Call Us
                   </p>
                   <a
-                    href={`tel:${COMPANY.phonePrimary}`}
+                    href={`tel:${siteSettings.phonePrimary}`}
                     className="block text-xl font-bold text-white hover:text-gold transition-colors"
                   >
-                    {COMPANY.phonePrimary}
+                    {siteSettings.phonePrimary}
                   </a>
-                  <a
-                    href={`tel:${COMPANY.phoneSecondary}`}
-                    className="block text-lg text-gray-400 hover:text-gold transition-colors"
-                  >
-                    {COMPANY.phoneSecondary}
-                  </a>
+                  {siteSettings.phoneSecondary && (
+                    <a
+                      href={`tel:${siteSettings.phoneSecondary}`}
+                      className="block text-lg text-gray-400 hover:text-gold transition-colors"
+                    >
+                      {siteSettings.phoneSecondary}
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -145,33 +151,37 @@ ${formData.message}`,
                     Email Us
                   </p>
                   <a
-                    href={`mailto:${COMPANY.email}`}
+                    href={`mailto:${siteSettings.email}`}
                     className="text-xl font-bold text-white hover:text-gold transition-colors"
                   >
-                    {COMPANY.email}
+                    {siteSettings.email}
                   </a>
                 </div>
               </div>
 
               {/* Location */}
-              <div className="flex items-center group">
-                <div className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-black transition-all">
-                  <MapPin size={20} />
+              {siteSettings.location && (
+                <div className="flex items-center group">
+                  <div className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-black transition-all">
+                    <MapPin size={20} />
+                  </div>
+                  <div className="ml-6">
+                    <p className="text-sm text-gray-500 uppercase tracking-wider mb-1">
+                      Service Area
+                    </p>
+                    <p className="text-xl font-bold text-white">
+                      {siteSettings.location}
+                    </p>
+                  </div>
                 </div>
-                <div className="ml-6">
-                  <p className="text-sm text-gray-500 uppercase tracking-wider mb-1">
-                    Service Area
-                  </p>
-                  <p className="text-xl font-bold text-white">{COMPANY.location}</p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
 
           {/* Form */}
           <div className="w-full lg:w-7/12 bg-card p-8 md:p-12 text-card-foreground shadow-2xl border-t-4 border-gold">
             <h3 className="font-serif text-2xl font-bold mb-6">
-              Request a Callback
+              {homepage.contactFormTitle || "Request a Callback"}
             </h3>
             <form
               className="space-y-6"

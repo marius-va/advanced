@@ -59,3 +59,73 @@ export const SERVICE_BY_SLUG_QUERY = `*[_type == "service" && slug.current == $s
     asset->
   }
 }`
+
+// ============================================
+// Site Settings Query (Singleton)
+// ============================================
+
+export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0] {
+  companyName,
+  tagline,
+  email,
+  phonePrimary,
+  phoneSecondary,
+  location,
+  topBarText,
+  footerDescription,
+  socialLinks {
+    facebook,
+    instagram,
+    linkedin
+  }
+}`
+
+// ============================================
+// Homepage Query (Singleton)
+// ============================================
+
+export const HOMEPAGE_QUERY = `*[_type == "homepage"][0] {
+  // Hero Section
+  heroBadge,
+  heroHeadline,
+  heroHeadlineHighlight,
+  heroSubheading,
+  heroCta {
+    primaryText,
+    primaryTarget,
+    secondaryText,
+    secondaryTarget
+  },
+  heroImage {
+    ...,
+    asset->
+  },
+  // About Section
+  aboutHeadline,
+  aboutHeadlineHighlight,
+  aboutDescription,
+  aboutImage {
+    ...,
+    asset->
+  },
+  features[] {
+    title,
+    description,
+    icon
+  },
+  // Services Section
+  servicesLabel,
+  servicesHeadline,
+  servicesDescription,
+  serviceHighlightStrips[] {
+    items[] {
+      headline,
+      subtext
+    }
+  },
+  // Contact Section
+  contactLabel,
+  contactHeadline,
+  contactDescription,
+  contactFormTitle
+}`

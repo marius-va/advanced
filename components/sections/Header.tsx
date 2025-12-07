@@ -5,9 +5,14 @@ import Link from "next/link";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { COMPANY, NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
+import type { SiteSettings } from "@/types/sanity";
 
-export function Header() {
+interface HeaderProps {
+  siteSettings: SiteSettings;
+}
+
+export function Header({ siteSettings }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -33,23 +38,25 @@ export function Header() {
       {/* Top Bar for desktop contact info */}
       <div className="hidden md:block bg-black text-white py-2 text-sm">
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <span className="opacity-80 uppercase tracking-widest text-xs">
-            Turnkey Construction Services Scotland
-          </span>
+          {siteSettings.topBarText && (
+            <span className="opacity-80 uppercase tracking-widest text-xs">
+              {siteSettings.topBarText}
+            </span>
+          )}
           <div className="flex items-center space-x-6">
             <a
-              href={`tel:${COMPANY.phonePrimary}`}
+              href={`tel:${siteSettings.phonePrimary}`}
               className="flex items-center hover:text-gold transition-colors"
             >
               <Phone size={14} className="mr-2 text-gold" />
-              {COMPANY.phonePrimary}
+              {siteSettings.phonePrimary}
             </a>
             <a
-              href={`mailto:${COMPANY.email}`}
+              href={`mailto:${siteSettings.email}`}
               className="flex items-center hover:text-gold transition-colors"
             >
               <Mail size={14} className="mr-2 text-gold" />
-              {COMPANY.email}
+              {siteSettings.email}
             </a>
           </div>
         </div>
@@ -68,7 +75,18 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <div className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-foreground">
-              Advanced Craft <span className="text-gold">Joiners</span>
+              {siteSettings.companyName ? (
+                <>
+                  {siteSettings.companyName.split(" ").slice(0, -1).join(" ")}{" "}
+                  <span className="text-gold">
+                    {siteSettings.companyName.split(" ").slice(-1)}
+                  </span>
+                </>
+              ) : (
+                <>
+                  Advanced Craft <span className="text-gold">Joiners</span>
+                </>
+              )}
             </div>
           </Link>
 

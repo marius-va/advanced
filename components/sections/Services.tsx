@@ -9,6 +9,7 @@ import {
   FileCheck,
   Users,
 } from "lucide-react";
+import type { Homepage, ServiceHighlightStrip } from "@/types/sanity";
 
 type SanityService = {
   _id: string;
@@ -52,7 +53,36 @@ type DisplayService = {
   placeholderUrl: string;
 };
 
-export async function Services() {
+// Default highlight strips (fallback)
+const DEFAULT_HIGHLIGHT_STRIPS: ServiceHighlightStrip[] = [
+  {
+    items: [
+      { headline: "Over 25 Years Expertise", subtext: "Established & Trusted" },
+      { headline: "All Work Guaranteed", subtext: "Full Peace of Mind" },
+    ],
+  },
+  {
+    items: [
+      { headline: "Design to Completion", subtext: "Full Turnkey Service" },
+      { headline: "Insurance Specialists", subtext: "Approved Repairer" },
+    ],
+  },
+  {
+    items: [
+      {
+        headline: "Built on Reputation.",
+        subtext:
+          "Over 90% of our work comes from referrals and return customers.",
+      },
+    ],
+  },
+];
+
+interface ServicesProps {
+  homepage: Homepage;
+}
+
+export async function Services({ homepage }: ServicesProps) {
   // Fetch services from Sanity
   let sanityServices: SanityService[] = [];
   try {
@@ -91,6 +121,12 @@ export async function Services() {
   const chunk3 = displayServices.slice(12, 18);
   const chunk4 = displayServices.slice(18);
 
+  // Get highlight strips from homepage or use fallback
+  const highlightStrips =
+    homepage.serviceHighlightStrips && homepage.serviceHighlightStrips.length > 0
+      ? homepage.serviceHighlightStrips
+      : DEFAULT_HIGHLIGHT_STRIPS;
+
   return (
     <section
       id="services"
@@ -100,20 +136,22 @@ export async function Services() {
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <span className="text-gold font-bold uppercase tracking-widest text-sm mb-2 block">
-            Our Expertise
-          </span>
+          {homepage.servicesLabel && (
+            <span className="text-gold font-bold uppercase tracking-widest text-sm mb-2 block">
+              {homepage.servicesLabel}
+            </span>
+          )}
           <h2
             id="services-heading"
             className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6"
           >
-            Comprehensive Service List
+            {homepage.servicesHeadline || "Comprehensive Service List"}
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
-            We deliver a true turnkey experience. From the initial architect
-            drawings to the final brush stroke, Advanced Craft Joiners handles
-            every aspect of your project with precision and mastery.
-          </p>
+          {homepage.servicesDescription && (
+            <p className="text-muted-foreground leading-relaxed">
+              {homepage.servicesDescription}
+            </p>
+          )}
         </div>
 
         {/* Group 1: Items 1-6 */}
@@ -129,31 +167,33 @@ export async function Services() {
           ))}
         </div>
 
-        {/* Feature Strip 1: Experience & Guarantee */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
-          <div className="flex flex-row items-center p-6 bg-card border-l-4 border-gold shadow-sm hover:shadow-md transition-shadow">
-            <Clock className="w-8 h-8 text-gold mr-5 flex-shrink-0" />
-            <div className="text-left">
-              <h3 className="font-serif text-lg font-bold text-foreground leading-tight">
-                Over 25 Years Expertise
-              </h3>
-              <p className="text-muted-foreground text-xs uppercase tracking-wider mt-1">
-                Established & Trusted
-              </p>
-            </div>
+        {/* Feature Strip 1 */}
+        {highlightStrips[0] && highlightStrips[0].items && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
+            {highlightStrips[0].items.map((item, idx) => (
+              <div
+                key={idx}
+                className="flex flex-row items-center p-6 bg-card border-l-4 border-gold shadow-sm hover:shadow-md transition-shadow"
+              >
+                {idx === 0 ? (
+                  <Clock className="w-8 h-8 text-gold mr-5 flex-shrink-0" />
+                ) : (
+                  <ShieldCheck className="w-8 h-8 text-gold mr-5 flex-shrink-0" />
+                )}
+                <div className="text-left">
+                  <h3 className="font-serif text-lg font-bold text-foreground leading-tight">
+                    {item.headline}
+                  </h3>
+                  {item.subtext && (
+                    <p className="text-muted-foreground text-xs uppercase tracking-wider mt-1">
+                      {item.subtext}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="flex flex-row items-center p-6 bg-card border-l-4 border-gold shadow-sm hover:shadow-md transition-shadow">
-            <ShieldCheck className="w-8 h-8 text-gold mr-5 flex-shrink-0" />
-            <div className="text-left">
-              <h3 className="font-serif text-lg font-bold text-foreground leading-tight">
-                All Work Guaranteed
-              </h3>
-              <p className="text-muted-foreground text-xs uppercase tracking-wider mt-1">
-                Full Peace of Mind
-              </p>
-            </div>
-          </div>
-        </div>
+        )}
 
         {/* Group 2: Items 7-12 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -168,31 +208,43 @@ export async function Services() {
           ))}
         </div>
 
-        {/* Feature Strip 2: Turnkey & Insurance */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
-          <div className="flex flex-row items-center p-6 bg-foreground text-background shadow-md transform hover:-translate-y-1 transition-transform duration-300">
-            <PencilRuler className="w-8 h-8 text-gold mr-5 flex-shrink-0" />
-            <div>
-              <h3 className="font-serif text-lg font-bold leading-tight">
-                Design to Completion
-              </h3>
-              <p className="text-muted-foreground text-xs uppercase tracking-wider mt-1">
-                Full Turnkey Service
-              </p>
-            </div>
+        {/* Feature Strip 2 */}
+        {highlightStrips[1] && highlightStrips[1].items && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
+            {highlightStrips[1].items.map((item, idx) => (
+              <div
+                key={idx}
+                className={
+                  idx === 0
+                    ? "flex flex-row items-center p-6 bg-foreground text-background shadow-md transform hover:-translate-y-1 transition-transform duration-300"
+                    : "flex flex-row items-center p-6 bg-gold text-black shadow-md transform hover:-translate-y-1 transition-transform duration-300"
+                }
+              >
+                {idx === 0 ? (
+                  <PencilRuler className="w-8 h-8 text-gold mr-5 flex-shrink-0" />
+                ) : (
+                  <FileCheck className="w-8 h-8 text-black mr-5 flex-shrink-0" />
+                )}
+                <div>
+                  <h3 className="font-serif text-lg font-bold leading-tight">
+                    {item.headline}
+                  </h3>
+                  {item.subtext && (
+                    <p
+                      className={
+                        idx === 0
+                          ? "text-muted-foreground text-xs uppercase tracking-wider mt-1"
+                          : "text-black/70 text-xs uppercase tracking-wider font-bold mt-1"
+                      }
+                    >
+                      {item.subtext}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="flex flex-row items-center p-6 bg-gold text-black shadow-md transform hover:-translate-y-1 transition-transform duration-300">
-            <FileCheck className="w-8 h-8 text-black mr-5 flex-shrink-0" />
-            <div>
-              <h3 className="font-serif text-lg font-bold leading-tight">
-                Insurance Specialists
-              </h3>
-              <p className="text-black/70 text-xs uppercase tracking-wider font-bold mt-1">
-                Approved Repairer
-              </p>
-            </div>
-          </div>
-        </div>
+        )}
 
         {/* Group 3: Items 13-18 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -207,24 +259,26 @@ export async function Services() {
           ))}
         </div>
 
-        {/* Feature Strip 3: Referrals */}
-        <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex flex-row items-center justify-center p-6 bg-card shadow-md border-t-2 border-gold">
-            <div className="p-2 bg-foreground rounded-full mr-5 shrink-0 hidden sm:block">
-              <Users className="w-5 h-5 text-gold" />
-            </div>
-            <div className="text-center sm:text-left">
-              <h3 className="font-serif text-lg font-bold text-foreground inline sm:block mr-2 sm:mr-0">
-                Built on Reputation.
-              </h3>
-              <span className="text-muted-foreground text-sm">
-                Over 90% of our work comes from{" "}
-                <span className="font-bold text-foreground">referrals</span> and
-                return customers.
-              </span>
+        {/* Feature Strip 3 */}
+        {highlightStrips[2] && highlightStrips[2].items && highlightStrips[2].items[0] && (
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="flex flex-row items-center justify-center p-6 bg-card shadow-md border-t-2 border-gold">
+              <div className="p-2 bg-foreground rounded-full mr-5 shrink-0 hidden sm:block">
+                <Users className="w-5 h-5 text-gold" />
+              </div>
+              <div className="text-center sm:text-left">
+                <h3 className="font-serif text-lg font-bold text-foreground inline sm:block mr-2 sm:mr-0">
+                  {highlightStrips[2].items[0].headline}
+                </h3>
+                {highlightStrips[2].items[0].subtext && (
+                  <span className="text-muted-foreground text-sm">
+                    {highlightStrips[2].items[0].subtext}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Group 4: Items 19-20 */}
         {chunk4.length > 0 && (

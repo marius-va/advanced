@@ -1,23 +1,40 @@
-import { COMPANY, SERVICES_LIST } from "@/lib/constants";
+import { SERVICES_LIST } from "@/lib/constants";
+import type { SiteSettings } from "@/types/sanity";
 
-export function StructuredData() {
+interface StructuredDataProps {
+  siteSettings: SiteSettings;
+}
+
+export function StructuredData({ siteSettings }: StructuredDataProps) {
+  // Build social links array
+  const sameAs: string[] = [];
+  if (siteSettings.socialLinks?.facebook)
+    sameAs.push(siteSettings.socialLinks.facebook);
+  if (siteSettings.socialLinks?.instagram)
+    sameAs.push(siteSettings.socialLinks.instagram);
+  if (siteSettings.socialLinks?.linkedin)
+    sameAs.push(siteSettings.socialLinks.linkedin);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": "https://advancedcraftjoiners.co.uk",
-    name: COMPANY.name,
+    name: siteSettings.companyName || "Advanced Craft Joiners",
     description:
+      siteSettings.footerDescription ||
       "Premium joinery and construction services in Scotland. Master craftsmen delivering bespoke new builds, extensions, kitchens, and complete renovations.",
     url: "https://advancedcraftjoiners.co.uk",
-    telephone: `+44${COMPANY.phonePrimary.replace(/^0/, "")}`,
-    email: COMPANY.email,
+    telephone: siteSettings.phonePrimary
+      ? `+44${siteSettings.phonePrimary.replace(/^0/, "")}`
+      : undefined,
+    email: siteSettings.email,
     areaServed: {
       "@type": "Country",
       name: "Scotland",
     },
     priceRange: "££",
     image: "https://advancedcraftjoiners.co.uk/og-image.jpg",
-    sameAs: [],
+    sameAs,
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Joinery & Construction Services",
