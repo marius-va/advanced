@@ -1,4 +1,4 @@
-import { sanityFetch } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { SERVICE_TITLES_QUERY } from "@/sanity/lib/queries";
 import { Header, Hero, About, Services, Contact, Footer } from "@/components/sections";
 import { StructuredData } from "@/components/StructuredData";
@@ -11,10 +11,10 @@ export default async function Home() {
   let services: { _id: string; title: string }[] = [];
 
   try {
-    services = await sanityFetch({
+    const { data } = await sanityFetch({
       query: SERVICE_TITLES_QUERY,
-      tags: ["service"],
     });
+    services = data;
   } catch (error) {
     console.error("Failed to fetch services:", error);
   }

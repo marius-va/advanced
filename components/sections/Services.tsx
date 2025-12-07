@@ -1,4 +1,4 @@
-import { sanityFetch } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import { SERVICES_QUERY } from "@/sanity/lib/queries";
 import { ServiceCard } from "./ServiceCard";
 import { SERVICES_LIST } from "@/lib/constants";
@@ -56,10 +56,10 @@ export async function Services() {
   // Fetch services from Sanity
   let sanityServices: SanityService[] = [];
   try {
-    sanityServices = await sanityFetch({
+    const { data } = await sanityFetch({
       query: SERVICES_QUERY,
-      tags: ["service"],
     });
+    sanityServices = data;
   } catch (error) {
     console.error("Failed to fetch services from Sanity:", error);
   }
