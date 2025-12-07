@@ -39,36 +39,13 @@ export const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
   image {
     ...,
     asset->
-  },
-  category->{
-    _id,
-    title,
-    slug
-  },
-  featured
+  }
 }`
 
 // Get service titles for contact form dropdown
 export const SERVICE_TITLES_QUERY = `*[_type == "service"] | order(title asc) {
   _id,
   title
-}`
-
-// Get featured services only
-export const FEATURED_SERVICES_QUERY = `*[_type == "service" && featured == true] | order(order asc) {
-  _id,
-  title,
-  slug,
-  description,
-  image {
-    ...,
-    asset->
-  },
-  category->{
-    _id,
-    title,
-    slug
-  }
 }`
 
 // Get single service by slug
@@ -80,11 +57,5 @@ export const SERVICE_BY_SLUG_QUERY = `*[_type == "service" && slug.current == $s
   image {
     ...,
     asset->
-  },
-  category->{
-    _id,
-    title,
-    slug
-  },
-  featured
+  }
 }`

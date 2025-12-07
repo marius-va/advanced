@@ -19,12 +19,6 @@ type SanityService = {
     asset: { _ref: string } | { _id: string; [key: string]: any };
     alt?: string;
   };
-  category?: {
-    _id: string;
-    title: string;
-    slug: { current: string };
-  };
-  featured?: boolean;
 };
 
 // Fallback placeholder images for when no Sanity data exists

@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typegen": "sanity schema extract && sanity typegen generate",
-    "seed:categories": "tsx scripts/seed-categories.ts"
+    "typegen": "sanity schema extract && sanity typegen generate"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

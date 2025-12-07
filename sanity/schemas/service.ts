@@ -47,25 +47,11 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'category',
-      title: 'Category',
-      type: 'reference',
-      to: [{ type: 'category' }],
-      description: 'Select a category for this service',
-    }),
-    defineField({
       name: 'order',
       title: 'Display Order',
       type: 'number',
       description: 'Lower numbers appear first (1-20)',
       validation: (Rule) => Rule.min(1).max(100),
-    }),
-    defineField({
-      name: 'featured',
-      title: 'Featured Service',
-      type: 'boolean',
-      description: 'Show prominently on the homepage',
-      initialValue: false,
     }),
   ],
   orderings: [
@@ -83,14 +69,13 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      categoryTitle: 'category.title',
       order: 'order',
       media: 'image',
     },
-    prepare({ title, categoryTitle, order, media }) {
+    prepare({ title, order, media }) {
       return {
         title: `${order ? `${order}. ` : ''}${title}`,
-        subtitle: categoryTitle || 'No category',
+        subtitle: 'Service',
         media,
       }
     },
