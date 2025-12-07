@@ -46,20 +46,30 @@ export function Contact({ services, siteSettings, homepage }: ContactProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: siteSettings.email,
-          subject: `New Inquiry: ${formData.service || "General Enquiry"}`,
-          text: `Name: ${formData.name}
+          // TODO: Change to siteSettings.email after verifying custom domain in Resend
+          to: "donskas@gmail.com",
+          replyTo: formData.email,
+          subject: `New Inquiry from ${siteSettings.companyName || "Website"}: ${formData.service || "General Enquiry"}`,
+          text: `New contact form submission:
+
+Name: ${formData.name}
 Phone: ${formData.phone}
 Email: ${formData.email}
 Service Interest: ${formData.service || "Not specified"}
 
 Message:
-${formData.message}`,
+${formData.message}
+
+---
+Intended recipient: ${siteSettings.email}
+(Emails sent to donskas@gmail.com until custom domain is verified in Resend)`,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to send");
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Email send failed:", errorData);
+        throw new Error(errorData.message || "Failed to send");
       }
 
       toast.success("Message sent successfully! We'll be in touch soon.");
