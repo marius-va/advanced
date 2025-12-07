@@ -1,8 +1,9 @@
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
-
 // Shared image type
 export interface SanityImage {
-  asset?: SanityImageSource
+  asset?: {
+    _ref: string
+    _type: 'reference'
+  }
   alt?: string
   hotspot?: {
     x: number
