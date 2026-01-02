@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -74,20 +75,14 @@ export function Header({ siteSettings }: HeaderProps) {
         <div className="container mx-auto px-6 flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-foreground">
-              {siteSettings.companyName ? (
-                <>
-                  {siteSettings.companyName.split(" ").slice(0, -1).join(" ")}{" "}
-                  <span className="text-gold">
-                    {siteSettings.companyName.split(" ").slice(-1)}
-                  </span>
-                </>
-              ) : (
-                <>
-                  Advanced Craft <span className="text-gold">Joiners</span>
-                </>
-              )}
-            </div>
+            <Image
+              src="/logo.svg"
+              alt={siteSettings.companyName || "Advanced Craft Joiners"}
+              width={78}
+              height={48}
+              className="h-10 md:h-12 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}
