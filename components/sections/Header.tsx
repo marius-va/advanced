@@ -68,7 +68,7 @@ export function Header({ siteSettings }: HeaderProps) {
         className={cn(
           "sticky top-0 z-50 transition-all duration-300 border-b border-gray-100",
           isScrolled
-            ? "bg-white shadow-md py-3"
+            ? "bg-white shadow-md py-4 md:py-3"
             : "bg-white py-5"
         )}
       >
