@@ -34,7 +34,7 @@ export function Hero({ homepage }: HeroProps) {
     <section
       id="home"
       aria-label="Welcome"
-      className="relative min-h-[85vh] flex items-center justify-center overflow-hidden"
+      className="relative z-0 min-h-[85vh] flex items-center justify-center overflow-hidden"
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">

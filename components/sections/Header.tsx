@@ -66,7 +66,7 @@ export function Header({ siteSettings }: HeaderProps) {
       {/* Main Navigation */}
       <header
         className={cn(
-          "sticky top-0 z-50 transition-all duration-300 border-b border-gray-100",
+          "sticky top-0 z-50 isolate transition-all duration-300 border-b border-gray-100",
           isScrolled
             ? "bg-white shadow-md py-4 md:py-3"
             : "bg-white py-5"
@@ -116,7 +116,7 @@ export function Header({ siteSettings }: HeaderProps) {
 
         {/* Mobile Nav Dropdown */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-lg py-4 px-6 flex flex-col space-y-4">
+          <div className="md:hidden absolute top-full left-0 right-0 w-full bg-white border-b border-gray-100 shadow-lg py-4 px-6 flex flex-col space-y-4 overflow-hidden">
             {NAV_LINKS.map((item) => (
               <button
                 key={item.href}
