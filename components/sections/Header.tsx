@@ -66,21 +66,24 @@ export function Header({ siteSettings }: HeaderProps) {
       {/* Main Navigation */}
       <header
         className={cn(
-          "sticky top-0 z-50 isolate transition-all duration-300 border-b border-gray-100",
+          "fixed top-0 left-0 right-0 z-50 isolate transition-all duration-300 border-b border-gray-100",
           isScrolled
-            ? "bg-white shadow-md py-4 md:py-3"
+            ? "bg-white shadow-md py-2 md:py-3"
             : "bg-white py-5"
         )}
       >
-        <div className="container mx-auto px-6 flex justify-between items-center">
+        <div className="container mx-auto px-6 flex justify-between items-center max-w-full">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center flex-shrink-0">
             <Image
               src="/logo.svg"
               alt={siteSettings.companyName || "Advanced Craft Joiners"}
               width={78}
               height={48}
-              className="h-10 md:h-12 w-auto"
+              className={cn(
+                "w-auto transition-all duration-300",
+                isScrolled ? "h-8 md:h-12" : "h-10 md:h-12"
+              )}
               priority
             />
           </Link>

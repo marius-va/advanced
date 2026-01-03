@@ -87,6 +87,7 @@
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Account for fixed header when scrolling to sections */
@@ -99,6 +100,18 @@ body {
   color: hsl(var(--foreground));
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+  width: 100%;
+}
+
+/* Account for fixed header - add padding to main content */
+main {
+  padding-top: 68px; /* Height of fixed header on mobile */
+}
+
+@media (min-width: 768px) {
+  main {
+    padding-top: 112px; /* Height of fixed header on desktop (including top bar) */
+  }
 }
 
 /* Utility classes for serif headings */
