@@ -21,7 +21,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://advancedcraftjoiners.co.uk"),
+  metadataBase: new URL("https://www.advancedcraftjoiners.co.uk"),
   title: {
     default: "Advanced Craft Joiners | Premium Joinery & Construction in Scotland",
     template: "%s | Advanced Craft Joiners",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_GB",
-    url: "https://advancedcraftjoiners.co.uk",
+    url: "https://www.advancedcraftjoiners.co.uk",
     siteName: "Advanced Craft Joiners",
     title: "Advanced Craft Joiners | Premium Joinery & Construction",
     description:
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://advancedcraftjoiners.co.uk",
+    canonical: "https://www.advancedcraftjoiners.co.uk",
   },
 };
 

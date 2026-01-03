@@ -119,7 +119,7 @@ lib/
 - Path alias: `@/*` maps to root directory
 
 ### Deployment (Vercel)
-- **Production URL**: https://advanced-seven.vercel.app/
+- **Production URL**: https://www.advancedcraftjoiners.co.uk/
 - **Required environment variables**:
   - `NEXT_PUBLIC_SANITY_PROJECT_ID`
   - `NEXT_PUBLIC_SANITY_DATASET`
@@ -127,7 +127,7 @@ lib/
   - `SANITY_REVALIDATE_SECRET`
   - `SANITY_PREVIEW_SECRET`
   - `SANITY_API_READ_TOKEN`
-- **Sanity webhook**: Configure at `https://advanced-seven.vercel.app/api/revalidate` with API version `v2025-02-19` and signature validation enabled
+- **Sanity webhook**: Configure at `https://www.advancedcraftjoiners.co.uk/api/revalidate` with API version `v2025-02-19` and signature validation enabled
 
 ### Key Implementation Notes
 - **Server Components**: Use by default; mark with `"use client"` only when needed (e.g., interactive components)
