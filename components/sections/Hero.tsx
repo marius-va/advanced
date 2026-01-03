@@ -97,7 +97,7 @@ export function Hero({ homepage }: HeroProps) {
             }
             variant="outline"
             size="lg"
-            className="border-white text-white hover:bg-white hover:text-black px-8 py-6 text-sm font-bold uppercase tracking-widest transition-all duration-300"
+            className="bg-transparent border-white text-white hover:bg-white hover:text-black px-8 py-6 text-sm font-bold uppercase tracking-widest transition-all duration-300"
           >
             {homepage.heroCta?.secondaryText || "View Our Services"}
           </Button>
